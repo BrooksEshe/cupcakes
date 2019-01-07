@@ -42,13 +42,13 @@
     //print statement
     if($isValid) {
         echo "<p>Thank you $name for your order</p>";
-        echo "<br><p>Order Summary:</p>";
+        echo "<p>Order Summary:</p>";
         echo "<ul>";
-        foreach($flavors as $flav => $flavName){
-            echo"<li>$flavName</li>";
+        foreach($flavors as $flav){
+            echo"<li>$flav</li>";
             $total += 3.50;
         }
-        echo "</ul> <p>Order Total: $total</p>";
+        echo "</ul> <p>Order Total: $$total</p>";
     }
 ?>
     <form id="donuts" method="POST" action="">
@@ -60,10 +60,11 @@
         <?php
 
             foreach ($flavorsArray as $options => $text) {
-            if ((isset($_POST['flavors']) && $_POST['flavors'] === $options))
-                echo "<br/><input type='checkbox' name='flavorChoice[]' value='$options'>$text";
-            else
-                echo "<br/><input type='checkbox' name='flavorChoice[]' value='$options'>$text";
+            if ((isset($_POST['flavorChoice']) && $_POST['flavorChoice'] == $options)){
+                echo "<br/><input type='checkbox' name='flavorChoice[]' value='$text'";
+                echo "checked=checked>$text";
+            }else
+                echo "<br/><input type='checkbox' name='flavorChoice[]' value='$text'>$text";
             }
         ?>
             <br><input type="submit" value="Order" id="submit" name="btnOrder">
