@@ -14,11 +14,14 @@
 <body>
 <?php
     $name = "";
+    $flavors = "";
     $flavorsArray = array('grasshopper' => 'The Grasshopper', 'maple' => 'Whiskey Maple Bacon',
                     'carrot' => 'Carrot Walnut', 'caramel' => 'Salted Caramel Cupcake', 'velvet'
                     => 'Red Velvet', 'lemon' => 'Lemon Drop', 'tiramisu'=>'Tiramisu');
-
+    $total = 0;
     //validation
+
+    //name
     $isValid = true;
     if(empty($_POST['name'])) {
         echo "Please enter a name<br>";
@@ -28,13 +31,24 @@
         $name = $_POST['name'];
     }
 
-    if(isset($_GET['flavorsArray'])){
-        $flavors = $_GET['flavorsArray'];
-        $flavorsString = implode(", ", $flavors);
-    }else{
-        echo "Please select desired flavors";
+    //flavors
+    if (!isset($_POST['flavorChoice'])){
+        echo "<p>Please select a flavor</p>";
         $isValid = false;
+    }elseif($_POST['flavorChoice']){
+        $flavors = $_POST['flavorChoice'];
+    }
 
+    //print statement
+    if($isValid) {
+        echo "<p>Thank you $name for your order</p>";
+        echo "<br><p>Order Summary:</p>";
+        echo "<ul>";
+        foreach($flavors as $flav => $flavName){
+            echo"<li>$flavName</li>";
+            $total += 3.50;
+        }
+        echo "</ul> <p>Order Total: $total</p>";
     }
 ?>
     <form id="donuts" method="POST" action="">
@@ -47,9 +61,9 @@
 
             foreach ($flavorsArray as $options => $text) {
             if ((isset($_POST['flavors']) && $_POST['flavors'] === $options))
-                echo "<br/><input type='checkbox' name='flavorsArray[]' value='$options'>$text";
+                echo "<br/><input type='checkbox' name='flavorChoice[]' value='$options'>$text";
             else
-                echo "<br/><input type='checkbox' name='flavorsArray[]' value='$options'>$text";
+                echo "<br/><input type='checkbox' name='flavorChoice[]' value='$options'>$text";
             }
         ?>
             <br><input type="submit" value="Order" id="submit" name="btnOrder">
