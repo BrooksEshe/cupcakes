@@ -1,6 +1,10 @@
 <?php
-    ini_set('display_errors',1);
-    error_reporting(E_ALL);
+/**
+ * Brooks Eshe
+ * 1/6/2019
+ * index.php
+ * This form takes an order for cupcakes and returns a message
+ */
 ?>
 <!doctype html>
 <html lang="en">
@@ -12,19 +16,21 @@
     <title>Document</title>
 </head>
 <body>
-<?php
+<pre>
+    <?php
     $name = "";
     $flavors = "";
     $flavorsArray = array('grasshopper' => 'The Grasshopper', 'maple' => 'Whiskey Maple Bacon',
-                    'carrot' => 'Carrot Walnut', 'caramel' => 'Salted Caramel Cupcake', 'velvet'
-                    => 'Red Velvet', 'lemon' => 'Lemon Drop', 'tiramisu'=>'Tiramisu');
+        'carrot' => 'Carrot Walnut', 'caramel' => 'Salted Caramel Cupcake', 'velvet'
+        => 'Red Velvet', 'lemon' => 'Lemon Drop', 'tiramisu'=>'Tiramisu');
     $total = 0;
+
     //validation
 
     //name
     $isValid = true;
     if(empty($_POST['name'])) {
-        echo "Please enter a name<br>";
+        echo "<p>Please enter a name</p>";
         $isValid = false;
     }
     else{
@@ -39,6 +45,14 @@
         $flavors = $_POST['flavorChoice'];
     }
 
+    //spoofing
+    foreach ($flavorChoice as $cupcake){
+        if(!in_array($cupcake, $flavorsArray)){
+            echo "not a valid flavor";
+            $isValid = false;
+        }
+    }
+
     //print statement
     if($isValid) {
         echo "<p>Thank you $name for your order</p>";
@@ -50,7 +64,9 @@
         }
         echo "</ul> <p>Order Total: $$total</p>";
     }
-?>
+    ?>
+</pre>
+
     <form id="donuts" method="POST" action="">
         <fieldset>
             <label>Name</label><br>
